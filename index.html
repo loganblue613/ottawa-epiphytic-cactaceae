@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Cultivation, taxonomy, conservation and hybridization of epiphytic cacti in Ottawa, Canada.">
+  <title>Ottawa Epiphytic Cactaceae</title>
+
+  <style>
+    :root {
+      --ink: #172019;
+      --forest: #173f32;
+      --forest-light: #285b48;
+      --moss: #7f9675;
+      --cream: #f5f0e5;
+      --paper: #fffdf7;
+      --rust: #a64f35;
+      --line: #d8d3c6;
+      --muted: #5e675f;
+      --shadow: 0 18px 50px rgba(28, 45, 34, 0.12);
+      --radius: 22px;
+      --max-width: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 15%, rgba(127, 150, 117, 0.12), transparent 25rem),
+        var(--cream);
+      font-family: Georgia, "Times New Roman", serif;
+      line-height: 1.65;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    img,
+    svg {
+      max-width: 100%;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: -999px;
+      top: 0;
+      z-index: 999;
+      padding: 0.75rem 1rem;
+      background: white;
+      color: black;
+    }
+
+    .skip-link:focus {
+      left: 0.75rem;
+      top: 0.75rem;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(23, 63, 50, 0.96);
+      color: white;
+      backdrop-filter: blur(12px);
+    }
+
+    .header-inner,
+    .section-inner {
+      width: min(calc(100% - 2rem), var(--max-width));
+      margin-inline: auto;
+    }
+
+    .header-inner {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .brand {
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      line-height: 1.15;
+    }
+
+    .brand small {
+      display: block;
+      margin-top: 0.18rem;
+      color: #dfe9e1;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 0.85rem 1.25rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.88rem;
+    }
+
+    nav a {
+      color: #f7fbf8;
+      text-decoration: none;
+    }
+
+    nav a:hover,
+    nav a:focus-visible {
+      text-decoration: underline;
+      text-underline-offset: 0.25rem;
+    }
+
+    .hero {
+      overflow: hidden;
+      background:
+        linear-gradient(115deg, rgba(23, 63, 50, 0.98), rgba(23, 63, 50, 0.78)),
+        var(--forest);
+      color: white;
+    }
+
+    .hero-inner {
+      width: min(calc(100% - 2rem), var(--max-width));
+      min-height: 660px;
+      margin-inline: auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+      align-items: center;
+      gap: 4rem;
+      padding-block: 5rem;
+    }
+
+    .eyebrow {
+      margin: 0 0 1rem;
+      color: #d4e1d7;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.17em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 780px;
+      margin-bottom: 1.25rem;
+      font-size: clamp(3rem, 8vw, 6.8rem);
+      font-weight: 500;
+      letter-spacing: -0.055em;
+      line-height: 0.94;
+    }
+
+    h2 {
+      margin-bottom: 1rem;
+      font-size: clamp(2.1rem, 5vw, 4rem);
+      font-weight: 500;
+      letter-spacing: -0.035em;
+      line-height: 1;
+    }
+
+    h3 {
+      margin-bottom: 0.55rem;
+      font-size: 1.35rem;
+      line-height: 1.2;
+    }
+
+    .hero-copy {
+      max-width: 700px;
+      color: #e8f0ea;
+      font-size: clamp(1.08rem, 2vw, 1.3rem);
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 2rem;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0.75rem 1.1rem;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      background: var(--paper);
+      color: var(--forest);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .button.secondary {
+      border-color: rgba(255, 255, 255, 0.45);
+      background: transparent;
+      color: white;
+    }
+
+    .button:hover,
+    .button:focus-visible {
+      transform: translateY(-1px);
+    }
+
+    .botanical-mark {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 420px;
+    }
+
+    .botanical-mark::before {
+      content: "";
+      position: absolute;
+      width: min(42vw, 430px);
+      aspect-ratio: 1;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 50%;
+    }
+
+    .botanical-mark svg {
+      position: relative;
+      width: min(90%, 470px);
+      filter: drop-shadow(0 30px 30px rgba(0, 0, 0, 0.2));
+    }
+
+    main section {
+      padding-block: 5.5rem;
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.12rem;
+    }
+
+    .rule-title {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      color: var(--forest);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .rule-title::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: var(--line);
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.2rem;
+    }
+
+    .card {
+      min-height: 250px;
+      padding: 1.45rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 253, 247, 0.84);
+      box-shadow: 0 8px 25px rgba(28, 45, 34, 0.05);
+    }
+
+    .card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .number {
+      display: block;
+      margin-bottom: 2.8rem;
+      color: var(--rust);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+    }
+
+    .project-section {
+      background: var(--paper);
+      border-block: 1px solid var(--line);
+    }
+
+    .project-feature {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
+      overflow: hidden;
+      border-radius: calc(var(--radius) + 6px);
+      background: var(--forest);
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    .project-copy {
+      padding: clamp(2rem, 5vw, 4rem);
+    }
+
+    .status {
+      display: inline-block;
+      margin-bottom: 1rem;
+      padding: 0.32rem 0.62rem;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 999px;
+      color: #e9f1eb;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .project-copy p {
+      max-width: 700px;
+      color: #e2ebe5;
+    }
+
+    .project-data {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-content: center;
+      gap: 1px;
+      padding: 1px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .datum {
+      min-height: 150px;
+      padding: 1.4rem;
+      background: #204b3c;
+    }
+
+    .datum dt {
+      margin-bottom: 0.5rem;
+      color: #bbd0c1;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .datum dd {
+      margin: 0;
+      font-size: 1.05rem;
+      line-height: 1.35;
+    }
+
+    .journal-list {
+      display: grid;
+      gap: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .journal-entry {
+      display: grid;
+      grid-template-columns: 140px minmax(0, 1fr) auto;
+      gap: 2rem;
+      align-items: center;
+      padding-block: 1.5rem;
+      border-bottom: 1px solid var(--line);
+      text-decoration: none;
+    }
+
+    .journal-entry time,
+    .journal-entry .type {
+      color: var(--muted);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .journal-entry:hover h3,
+    .journal-entry:focus-visible h3 {
+      color: var(--rust);
+    }
+
+    .collection-preview {
+      display: grid;
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .collection-table {
+      width: 100%;
+      overflow: hidden;
+      border-collapse: collapse;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      font-size: 0.95rem;
+    }
+
+    .collection-table th,
+    .collection-table td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .collection-table th {
+      background: #e9ece4;
+      color: var(--forest);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .collection-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .note {
+      margin-top: 1rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .about-panel {
+      padding: clamp(2rem, 5vw, 4.5rem);
+      border-radius: calc(var(--radius) + 6px);
+      background: #e7e7da;
+    }
+
+    footer {
+      padding-block: 3rem;
+      background: #102d24;
+      color: #dfe9e1;
+    }
+
+    .footer-inner {
+      width: min(calc(100% - 2rem), var(--max-width));
+      margin-inline: auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.82rem;
+    }
+
+    .footer-inner p {
+      margin-bottom: 0;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    @media (max-width: 850px) {
+      .header-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        padding-block: 1rem;
+      }
+
+      nav {
+        justify-content: flex-start;
+      }
+
+      .hero-inner,
+      .intro-grid,
+      .project-feature,
+      .collection-preview {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-inner {
+        min-height: auto;
+        gap: 1rem;
+        padding-block: 4rem 2.5rem;
+      }
+
+      .botanical-mark {
+        min-height: 300px;
+      }
+
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .journal-entry {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+    }
+
+    @media (max-width: 520px) {
+      h1 {
+        font-size: clamp(2.8rem, 17vw, 4.7rem);
+      }
+
+      main section {
+        padding-block: 4rem;
+      }
+
+      .project-data {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+      }
+
+      .collection-table {
+        font-size: 0.83rem;
+      }
+
+      .collection-table th,
+      .collection-table td {
+        padding: 0.75rem 0.55rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#top">
+        Ottawa Epiphytic Cactaceae
+        <small>Living collection & field journal</small>
+      </a>
+
+      <nav aria-label="Primary navigation">
+        <a href="#collection">Collection</a>
+        <a href="#projects">Projects</a>
+        <a href="#journal">Journal</a>
+        <a href="#research">Research</a>
+        <a href="#about">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="hero-inner">
+        <div>
+          <p class="eyebrow">Ottawa, Ontario · Established 2026</p>
+          <h1>Ottawa Epiphytic Cactaceae</h1>
+          <p class="hero-copy">
+            An independent record of cultivation, taxonomy, conservation,
+            pollination and hybridization across the epiphytic Cactaceae.
+          </p>
+
+          <div class="button-row">
+            <a class="button" href="#projects">View current work</a>
+            <a class="button secondary" href="#collection">Browse the collection</a>
+          </div>
+        </div>
+
+        <div class="botanical-mark" aria-label="Stylized epiphytic cactus illustration">
+          <svg viewBox="0 0 500 500" role="img" aria-labelledby="cactus-title">
+            <title id="cactus-title">Stylized segmented epiphytic cactus</title>
+            <g fill="none" stroke="#dce9df" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M255 437 C247 369 255 310 247 259 C241 220 217 194 184 177" stroke-width="22"/>
+              <path d="M247 292 C292 260 316 226 324 182" stroke-width="20"/>
+              <path d="M196 190 C157 167 134 137 134 98" stroke-width="18"/>
+              <path d="M322 187 C354 153 366 119 360 82" stroke-width="18"/>
+              <path d="M252 342 C210 329 179 301 162 265" stroke-width="18"/>
+              <path d="M165 269 C129 250 104 222 94 185" stroke-width="16"/>
+              <path d="M250 258 C274 229 280 194 271 159" stroke-width="16"/>
+              <path d="M271 160 C260 130 263 98 280 70" stroke-width="15"/>
+            </g>
+            <g fill="#c26b4d" opacity="0.95">
+              <path d="M128 94 C110 74 111 50 132 32 C152 50 153 76 128 94Z"/>
+              <path d="M359 81 C341 61 344 36 365 20 C383 40 382 65 359 81Z"/>
+              <path d="M279 70 C263 52 266 31 285 16 C301 34 298 55 279 70Z"/>
+            </g>
+            <g fill="#b8cbbd">
+              <circle cx="183" cy="177" r="4"/>
+              <circle cx="323" cy="183" r="4"/>
+              <circle cx="162" cy="265" r="4"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-inner intro-grid">
+        <div>
+          <p class="eyebrow" style="color: var(--rust);">Purpose</p>
+          <h2>A living archive, not merely a plant list.</h2>
+        </div>
+
+        <div>
+          <p class="lead">
+            This site documents individual plants over time: how they were
+            received, how their identification changes, how they grow, when
+            they flower, and what happens after controlled pollination.
+          </p>
+          <p>
+            Labels are treated as hypotheses when provenance is uncertain.
+            Original nursery names are preserved alongside current or tentative
+            identifications, so that useful information is not lost.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="research">
+      <div class="section-inner">
+        <p class="rule-title">Areas of work</p>
+
+        <div class="card-grid">
+          <article class="card">
+            <span class="number">01</span>
+            <h3>Living collection</h3>
+            <p>
+              Accession-based records for species, natural hybrids, cultivated
+              hybrids, unidentified material and seed-grown plants.
+            </p>
+          </article>
+
+          <article class="card">
+            <span class="number">02</span>
+            <h3>Pollination & seed</h3>
+            <p>
+              Controlled crosses, pollen storage, fruit development, seed
+              harvest, germination and long-term seedling variation.
+            </p>
+          </article>
+
+          <article class="card">
+            <span class="number">03</span>
+            <h3>Taxonomy & sourcing</h3>
+            <p>
+              Synonyms, historic nursery records, field numbers, locality data,
+              questionable labels and searches for genetically distinct clones.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-section" id="projects">
+      <div class="section-inner">
+        <p class="rule-title">Current project</p>
+
+        <article class="project-feature">
+          <div class="project-copy">
+            <span class="status">Observation in progress</span>
+            <h2><em>Disocactus × jenkinsonii</em> × <em>D. phyllanthoides</em></h2>
+            <p>
+              A controlled pollination using previously stored pollen. The ovary
+              remains attached and appears to be enlarging. Fruit set is
+              probable, but viable seed production has not yet been confirmed.
+            </p>
+            <a class="button" href="#journal">Follow the record</a>
+          </div>
+
+          <dl class="project-data">
+            <div class="datum">
+              <dt>Seed parent</dt>
+              <dd><em>Disocactus × jenkinsonii</em></dd>
+            </div>
+            <div class="datum">
+              <dt>Pollen parent</dt>
+              <dd><em>Disocactus phyllanthoides</em></dd>
+            </div>
+            <div class="datum">
+              <dt>Location</dt>
+              <dd>Ottawa, Ontario</dd>
+            </div>
+            <div class="datum">
+              <dt>Current status</dt>
+              <dd>Probable fruit development</dd>
+            </div>
+          </dl>
+        </article>
+      </div>
+    </section>
+
+    <section id="journal">
+      <div class="section-inner">
+        <p class="rule-title">Field journal</p>
+        <h2>Recent records</h2>
+
+        <div class="journal-list">
+          <a class="journal-entry" href="#projects">
+            <time datetime="2026-08-03">03 Aug 2026</time>
+            <div>
+              <h3>Probable fruit development after controlled pollination</h3>
+              <p>The ovary remains firm, attached and visibly enlarged.</p>
+            </div>
+            <span class="type">Pollination</span>
+          </a>
+
+          <a class="journal-entry" href="#collection">
+            <time datetime="2026-08-03">03 Aug 2026</time>
+            <div>
+              <h3>Creating the first accession records</h3>
+              <p>A consistent system for plants, seed batches and seedlings.</p>
+            </div>
+            <span class="type">Collection</span>
+          </a>
+
+          <a class="journal-entry" href="#research">
+            <time datetime="2026-08-03">03 Aug 2026</time>
+            <div>
+              <h3>Separating nursery labels from current identifications</h3>
+              <p>Why “received as” should remain part of every record.</p>
+            </div>
+            <span class="type">Taxonomy</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="collection">
+      <div class="section-inner collection-preview">
+        <div>
+          <p class="eyebrow" style="color: var(--rust);">Collection catalogue</p>
+          <h2>Every plant keeps its history.</h2>
+          <p class="lead">
+            This preliminary table demonstrates how accession records will be
+            displayed. Names and accession numbers can be revised before the
+            catalogue becomes public.
+          </p>
+        </div>
+
+        <div>
+          <table class="collection-table">
+            <thead>
+              <tr>
+                <th>Accession</th>
+                <th>Taxon</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>OEC-2026-001</td>
+                <td><em>Disocactus × jenkinsonii</em></td>
+                <td>Flowering specimen</td>
+              </tr>
+              <tr>
+                <td>OEC-2026-002</td>
+                <td><em>Disocactus phyllanthoides</em></td>
+                <td>Identification under review</td>
+              </tr>
+              <tr>
+                <td>OEC-2026-003</td>
+                <td><em>Selenicereus calcaratus</em></td>
+                <td>Single known clone</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="note">
+            Draft data only. Replace these numbers with the final accession
+            system before publishing a full catalogue.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="section-inner">
+        <div class="about-panel">
+          <p class="eyebrow" style="color: var(--rust);">About the project</p>
+          <h2>Independent cultivation and documentation in Ottawa.</h2>
+          <p class="lead">
+            Ottawa Epiphytic Cactaceae is an amateur living-collection project
+            focused on preserving records, sharing observations and improving
+            the traceability of cultivated epiphytic cacti.
+          </p>
+          <p>
+            The project does not claim formal taxonomic authority. Identifications
+            are presented with confidence levels, references and corrections as
+            additional evidence becomes available.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <p>© <span id="year">2026</span> Ottawa Epiphytic Cactaceae</p>
+      <p>Ottawa, Ontario, Canada</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
